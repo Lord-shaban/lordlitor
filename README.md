@@ -1,172 +1,212 @@
 <p align="center">
-  <img src="lib/image/logo_without_bg.png" alt="Lordlitor Logo" width="180"/>
+  <img src="lib/image/logo_without_bg.png" alt="Lordlitor" width="150"/>
 </p>
 
-<h1 align="center">🐊 Lordlitor</h1>
+<h1 align="center">Lordlitor 🐊</h1>
 
 <p align="center">
-  <strong>تدريب القدرات الذهنية | Mental Abilities Training App</strong>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter" alt="Flutter"/>
-  <img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart" alt="Dart"/>
-  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green?style=for-the-badge" alt="Platform"/>
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License"/>
+  <b>تدريب القدرات الذهنية والحساب السريع</b><br/>
+  <i>Mental Abilities & Fast Math Training App</i>
 </p>
 
 <p align="center">
-  تطبيق تفاعلي مستوحى من Duolingo لتدريب القدرات الذهنية والرياضيات، مصمم بأسلوب ممتع وجذاب مع شخصية التمساح اللطيف 🐊
+  <img src="https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter"/>
+  <img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart"/>
+  <img src="https://img.shields.io/badge/Platform-Android%20|%20iOS-58CC02?style=flat-square" alt="Platform"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License"/>
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square" alt="Version"/>
 </p>
 
 ---
 
-## 📱 نظرة عامة
+## 🎯 حول التطبيق
 
-**Lordlitor** هو تطبيق تعليمي تفاعلي يهدف إلى تطوير المهارات الحسابية والقدرات الذهنية من خلال تمارين متنوعة وتحديات بمستويات صعوبة مختلفة. التطبيق مستوحى من تجربة **Duolingo** في التصميم والتفاعل.
+**Lordlitor** تطبيق تعليمي تفاعلي مستوحى من [Duolingo](https://www.duolingo.com/) لتدريب القدرات الذهنية والرياضيات. مصمم لمساعدة الطلاب على التحضير لاختبارات القدرات من خلال تمارين متنوعة بأنماط مستخلصة من **68 سؤال امتحاني حقيقي**.
 
-## ✨ الميزات الرئيسية
+### لماذا Lordlitor؟
 
-### 📊 أنواع التمارين
-| النوع | الوصف | المستويات |
-|-------|-------|-----------|
-| ✖️ **الضرب** | جداول الضرب + عمليات متعددة | سهل • متوسط • صعب |
-| ➕ **الجمع** | جمع أعداد مع عمليات مركبة | سهل • متوسط • صعب |
-| ➖ **الطرح** | طرح مع أنماط امتحانية حقيقية | سهل • متوسط • صعب |
-| ➗ **القسمة** | قسمة مع سلاسل عمليات | سهل • متوسط • صعب |
-| 🔢 **المتتاليات** | حسابية، هندسية، تربيعية | سهل • متوسط • صعب |
-| 🧠 **الحساب الذهني** | 21 نمط مختلف من الأسئلة | سهل • متوسط • صعب |
+- 🧠 **أنماط حقيقية** — الأسئلة مبنية على تحليل أسئلة امتحانية فعلية
+- 🎮 **تجربة ممتعة** — تصميم Duolingo-like يجعل التعلم إدمانياً
+- 📊 **صعوبة ذكية** — يتكيف مع مستواك تلقائياً
+- 🐊 **شخصية محبوبة** — التمساح اللطيف يرافقك في رحلتك
 
-### 🧠 أنماط الحساب الذهني
-- **العمليات المركبة**: `a×b+c`, `a×b÷c+d`, `a÷b×c-d` (21 نمط)
-- **الكسور اللفظية**: ثلث، نصف، ربع، خمس، سدس، ثمن...
-- **تحويلات الوقت**: ثواني ↔ دقائق ↔ ساعات ↔ أيام
-- **التقويم والوحدات**: أشهر، عقود، عدّ الوحدات
-- **الهندسة**: مجموع أضلاع الأشكال
-- **النسب المئوية**: حسابات النسبة
-- **العدد المفقود**: إيجاد المجهول
-- **الضعف والنصف**: مضاعفة وتنصيف
-- **حاصل الضرب المباشر**: ضرب بصيغة لفظية
+---
 
-### 🎮 تجربة المستخدم
-- 🎨 **تصميم مستوحى من Duolingo** مع أزرار ثلاثية الأبعاد
-- 🐊 **شخصية التمساح** المرحة مع تعابير متعددة
-- 📈 **نظام تقدم متكامل** (XP, مستويات, streaks)
-- 🔥 **نظام كومبو** مع مضاعفات النقاط
-- 📳 **اهتزازات لمسية** (Haptic Feedback) على التفاعل
-- ✨ **انيميشن سلسة** على جميع العناصر
-- 🎯 **صعوبة تكيفية** حسب مستوى اللاعب
+## ✨ الميزات
 
-### 🏋️ جدول الضرب
-- تدريب شامل على جداول الضرب من **1 إلى 20**
-- نظام **إعادة المحاولة** - الأسئلة الخاطئة تُعاد حتى الإتقان
-- تتبع التقدم لكل جدول
+<table>
+<tr>
+<td width="50%">
 
-## 🏗️ البنية التقنية
+### 📚 6 فئات تدريبية
+- ✖️ الضرب (مع عمليات مركبة)
+- ➕ الجمع (بأنماط امتحانية)
+- ➖ الطرح (مع خدع حقيقية)
+- ➗ القسمة (سلاسل عمليات)
+- 🔢 المتتاليات العددية
+- 🧠 الحساب الذهني (21 نمط!)
+
+</td>
+<td width="50%">
+
+### 🎮 تجربة مستخدم غنية
+- 🎨 تصميم Duolingo مع أزرار 3D
+- 🔥 نظام كومبو (×1.5, ×2, ×3)
+- 📈 نظام XP ومستويات وstreaks
+- 📳 اهتزازات لمسية
+- ✨ انيميشن سلسة
+- 🐊 شخصية تفاعلية
+
+</td>
+</tr>
+</table>
+
+### 🧠 الحساب الذهني — 21 نمط سؤال
+
+مبني على تحليل عميق لأسئلة الامتحانات الحقيقية:
 
 ```
-lib/
-├── core/
-│   ├── app_theme.dart         # نظام الألوان والثيم
-│   └── constants.dart         # الثوابت العامة
-├── models/
-│   └── question_model.dart    # نماذج البيانات
-├── services/
-│   └── question_generator.dart # محرك توليد الأسئلة
-├── screens/
-│   ├── splash_screen.dart     # شاشة البداية
-│   ├── home_screen.dart       # الشاشة الرئيسية
-│   ├── categories_screen.dart # شاشة الفئات
-│   ├── quiz_screen.dart       # شاشة الاختبار
-│   ├── result_screen.dart     # شاشة النتائج
-│   └── multiplication_table_screen.dart
-├── widgets/
-│   └── duo_button.dart        # أزرار ثلاثية الأبعاد
-├── image/
-│   ├── logo.jpg               # اللوجو الأصلي
-│   ├── logo_without_bg.png    # اللوجو بخلفية شفافة
-│   └── logo_happy.png         # التمساح السعيد
-└── main.dart                  # نقطة البداية
+العمليات المركبة (14 نمط):
+  a×b+c  |  a×b×c  |  a×b+c×d  |  a×b-c×d  |  a×b÷c+d
+  a×b+c÷d  |  a×b÷c×d  |  a+b×c×d  |  a÷b×c+d  |  a÷b×c
+  a×b÷c-d  |  a÷b×c-d  |  a÷b÷c×d  |  a-b×c-d  ...وأكثر
+
+مسائل لفظية:
+  كسور (ثلث، نصف، ربع، خمس، سدس، ثمن...)
+  تحويلات الوقت (ثواني ↔ دقائق ↔ ساعات ↔ أيام)
+  وحدات التقويم (أشهر، عقود، عدّ الوحدات)
+  هندسة (مجموع أضلاع الأشكال)
+  نسب مئوية | عدد مفقود | ضعف/نصف | حاصل ضرب
 ```
 
-## 🚀 التثبيت والتشغيل
+### 🏋️ جدول الضرب (1-20)
+
+- تدريب شامل لكل جدول
+- **نظام إتقان**: الأسئلة الخاطئة تُعاد تلقائياً
+- لا ينتهي التدريب حتى تجيب على الكل صح ✅
+
+---
+
+## 📊 نظام الصعوبة
+
+| المستوى | الأرقام | العمليات | النتيجة | مثال |
+|:-------:|:-------:|:--------:|:-------:|:----:|
+| 🟢 سهل | 2-20 | 1-2 | <200 | `14 × 4 ÷ 2 + 18` |
+| 🟡 متوسط | 10-100 | 2-3 | 100-600 | `9 × 6 + 12 × 4` |
+| 🔴 صعب | 50-1000+ | 3-4+ | 500+ | `955 - 133 × 6 + 459` |
+
+> 📌 **90%** من الأسئلة تكون من المستوى المُختار — لضمان تجربة عادلة.
+
+---
+
+## 🏗️ البنية
+
+```
+lordlitor/
+├── lib/
+│   ├── core/                  # ثيم + ثوابت
+│   ├── models/                # نماذج البيانات
+│   ├── services/              # محرك توليد الأسئلة
+│   ├── screens/               # 6 شاشات
+│   ├── widgets/               # عناصر مشتركة
+│   ├── image/                 # أصول الصور
+│   └── main.dart
+├── .github/
+│   ├── workflows/             # CI/CD
+│   ├── ISSUE_TEMPLATE/        # قوالب Issues
+│   └── PULL_REQUEST_TEMPLATE.md
+├── README.md
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+└── LICENSE
+```
+
+---
+
+## 🚀 البدء السريع
 
 ### المتطلبات
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.x أو أحدث)
-- [Dart SDK](https://dart.dev/get-dart) (3.x أو أحدث)
-- Android Studio / VS Code
-- Android SDK أو Xcode (للتشغيل على المحاكي)
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) 3.x+
+- Android Studio أو VS Code
 
-### خطوات التشغيل
+### التشغيل
 
 ```bash
-# 1. استنساخ المشروع
-git clone https://github.com/YOUR_USERNAME/lordlitor.git
+# استنساخ
+git clone https://github.com/Lord-shaban/lordlitor.git
 cd lordlitor
 
-# 2. تثبيت الحزم
+# تثبيت الحزم
 flutter pub get
 
-# 3. إنشاء Native Splash Screen
-dart run flutter_native_splash:create
-
-# 4. إنشاء أيقونات التطبيق
-dart run flutter_launcher_icons
-
-# 5. تشغيل التطبيق
+# تشغيل
 flutter run
 ```
 
-### البناء للإنتاج
+### البناء
 
 ```bash
 # Android APK
 flutter build apk --release
 
-# Android App Bundle
+# Android Bundle
 flutter build appbundle --release
-
-# iOS
-flutter build ios --release
 ```
 
-## 📦 الحزم المستخدمة
+### إعداد اختياري
 
-| الحزمة | الاستخدام |
-|--------|-----------|
-| `google_fonts` | خطوط عربية احترافية (Cairo) |
-| `flutter_animate` | انيميشن سلسة ومتقدمة |
-| `shared_preferences` | حفظ التقدم محلياً |
-| `confetti` | تأثيرات الاحتفال |
-| `percent_indicator` | مؤشرات التقدم الدائرية |
-| `fl_chart` | رسوم بيانية للإحصائيات |
-| `flutter_native_splash` | شاشة بداية أصلية |
-| `flutter_launcher_icons` | أيقونات التطبيق |
+```bash
+# إنشاء Native Splash
+dart run flutter_native_splash:create
 
-## 📊 نظام الصعوبة الذكي
+# إنشاء أيقونات التطبيق
+dart run flutter_launcher_icons
+```
 
-يعتمد التطبيق على تحليل **68 سؤال امتحاني حقيقي** لتحديد مستويات الصعوبة:
+---
 
-| المستوى | حجم الأرقام | عدد العمليات | نطاق النتائج |
-|---------|-------------|--------------|--------------|
-| 🟢 سهل | 2-20 | 1-2 | < 200 |
-| 🟡 متوسط | 10-100 | 2-3 | 100-600 |
-| 🔴 صعب | 50-1000+ | 3-4+ | 500-10,000 |
+## 📦 الحزم
+
+| الحزمة | الغرض |
+|:------:|:-----:|
+| `flutter_animate` | انيميشن |
+| `google_fonts` | خط Cairo |
+| `shared_preferences` | حفظ التقدم |
+| `confetti` | تأثيرات احتفال |
+| `percent_indicator` | مؤشرات التقدم |
+| `fl_chart` | رسوم بيانية |
+| `flutter_native_splash` | سبلاش أصلي |
+| `flutter_launcher_icons` | أيقونات |
+
+---
+
+## 🛣️ خارطة الطريق
+
+- [x] الإصدار الأول مع 6 فئات
+- [x] 21 نمط حساب ذهني
+- [x] نظام كومبو وXP
+- [x] تصميم Duolingo-like
+- [ ] وضع التحدي اليومي
+- [ ] لوحة المتصدرين
+- [ ] إضافة أنماط أسئلة جديدة
+- [ ] دعم لغات متعددة
+- [ ] وضع المسابقة (multiplayer)
+
+---
 
 ## 🤝 المساهمة
 
-المساهمات مرحب بها! يرجى قراءة [دليل المساهمة](CONTRIBUTING.md) قبل البدء.
+المساهمات مرحب بها! اقرأ [CONTRIBUTING.md](CONTRIBUTING.md) للبدء.
 
 ## 📄 الرخصة
 
-هذا المشروع مرخص تحت [رخصة MIT](LICENSE).
-
-## 📬 التواصل
-
-إذا كانت لديك أسئلة أو اقتراحات، لا تتردد في فتح [Issue](../../issues) جديدة.
+[MIT License](LICENSE) — استخدم، عدّل، وزّع بحرية.
 
 ---
 
 <p align="center">
-  صُنع بـ ❤️ باستخدام Flutter
+  <img src="lib/image/logo_happy.png" alt="Happy Lordlitor" width="80"/>
+  <br/>
+  <b>صُنع بـ ❤️ باستخدام Flutter</b>
 </p>
