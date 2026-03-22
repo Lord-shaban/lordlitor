@@ -1,6 +1,7 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import '../core/app_theme.dart';
 import '../models/question_model.dart';
@@ -22,7 +23,7 @@ class CategoriesScreen extends StatelessWidget {
               children: [
                 Text(
                   'التمارين',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textPrimary,
@@ -36,7 +37,7 @@ class CategoriesScreen extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               'اختر نوع التمرين وابدأ التدريب',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 14,
                 color: AppColors.textSecondary,
               ),
@@ -174,7 +175,7 @@ class CategoriesScreen extends StatelessWidget {
                   children: [
                     Text(
                       category.title,
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.cairo( 
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -183,7 +184,7 @@ class CategoriesScreen extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       category.subtitle,
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.cairo( 
                         fontSize: 12,
                         color: AppColors.textSecondary,
                       ),
@@ -271,7 +272,7 @@ class CategoriesScreen extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               category.title,
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textPrimary,
@@ -280,7 +281,7 @@ class CategoriesScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               'اختر مستوى الصعوبة',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 14,
                 color: AppColors.textSecondary,
               ),
@@ -438,7 +439,7 @@ class _DuoDifficultyButtonState extends State<_DuoDifficultyButton> {
                 children: [
                   Text(
                     widget.title,
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: widget.color,
@@ -446,7 +447,7 @@ class _DuoDifficultyButtonState extends State<_DuoDifficultyButton> {
                   ),
                   Text(
                     widget.subtitle,
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 12,
                       color: AppColors.textSecondary,
                     ),
@@ -486,3 +487,6 @@ class _CategoryData {
     required this.categoryIcon,
   });
 }
+
+
+

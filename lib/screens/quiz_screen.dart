@@ -1,7 +1,8 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
 import '../core/app_theme.dart';
@@ -329,6 +330,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           categoryColor: widget.categoryColor,
           categoryEmoji: widget.categoryEmoji,
           categoryTitle: widget.categoryTitle,
+          type: widget.type,
+          difficulty: widget.difficulty,
         ),
         transitionsBuilder: (_, animation, __, child) {
           return FadeTransition(opacity: animation, child: child);
@@ -365,7 +368,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         children: [
           Text(
             '${parts[0]}:',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 17,
               fontWeight: FontWeight.w700,
               color: AppColors.textSecondary,
@@ -380,7 +383,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               textDirection: TextDirection.ltr,
               child: Text(
                 parts[1],
-                style: GoogleFonts.cairo(
+                style: GoogleFonts.cairo( 
                   fontSize: _mathFontSize(parts[1]),
                   fontWeight: FontWeight.w900,
                   color: AppColors.textPrimary,
@@ -404,7 +407,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         fit: BoxFit.scaleDown,
         child: Text(
           text,
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.cairo( 
             fontSize: _arabicFontSize(text),
             fontWeight: FontWeight.w900,
             color: AppColors.textPrimary,
@@ -424,7 +427,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         textDirection: TextDirection.ltr,
         child: Text(
           text,
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.cairo( 
             fontSize: _mathFontSize(text),
             fontWeight: FontWeight.w900,
             color: AppColors.textPrimary,
@@ -491,7 +494,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 const SizedBox(height: 20),
                 Text(
                   'نجهّز لك أسئلة ذكية...',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textSecondary,
@@ -579,7 +582,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                                     const SizedBox(width: 6),
                                     Text(
                                       'إعادة الأسئلة الخاطئة (${_questions.length} متبقي)',
-                                      style: GoogleFonts.cairo(
+                                      style: GoogleFonts.cairo( 
                                         fontSize: 13,
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.accent,
@@ -747,7 +750,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   const SizedBox(width: 3),
                   Text(
                     '$_streak',
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
                       color: AppColors.streak,
@@ -799,7 +802,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               widget.isTableMode
                   ? (widget.categoryTitle)
                   : _difficultyLabel(widget.difficulty),
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: widget.categoryColor,
@@ -826,7 +829,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           const SizedBox(width: 4),
           Text(
             text,
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: color,
@@ -877,7 +880,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           const SizedBox(width: 6),
           Text(
             'كومبو $_combo! ×${multiplier.toStringAsFixed(1)}',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 14,
               fontWeight: FontWeight.w800,
               color: Colors.white,
@@ -966,7 +969,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                             const SizedBox(width: 4),
                             Text(
                               '+${question.bonusXp} XP',
-                              style: GoogleFonts.cairo(
+                              style: GoogleFonts.cairo( 
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.goldDark,
@@ -1011,7 +1014,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           keyboardType: const TextInputType.numberWithOptions(signed: true),
           textAlign: TextAlign.center,
           textDirection: TextDirection.ltr,
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.cairo( 
             fontSize: 30,
             fontWeight: FontWeight.w900,
             color: _answered
@@ -1020,7 +1023,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           ),
           decoration: InputDecoration(
             hintText: '؟',
-            hintStyle: GoogleFonts.cairo(
+            hintStyle: GoogleFonts.cairo( 
               fontSize: 28,
               color: AppColors.textLight,
               fontWeight: FontWeight.w800,
@@ -1082,7 +1085,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: Text(
                     hint,
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1121,7 +1124,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             const SizedBox(width: 6),
             Text(
               'تلميح',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: AppColors.secondary,
@@ -1168,7 +1171,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               Expanded(
                 child: Text(
                   _feedbackText,
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
                     color: _isCorrect ? AppColors.correct : AppColors.wrong,
@@ -1184,7 +1187,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               textDirection: TextDirection.ltr,
               child: Text(
                 question.explanation!,
-                style: GoogleFonts.cairo(
+                style: GoogleFonts.cairo( 
                   fontSize: 14,
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.w500,
@@ -1237,12 +1240,12 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           'هل تريد الخروج؟',
-          style: GoogleFonts.cairo(fontWeight: FontWeight.w800),
+          style: GoogleFonts.cairo( fontWeight: FontWeight.w800),
           textAlign: TextAlign.center,
         ),
         content: Text(
           'سيتم فقدان التقدم الحالي',
-          style: GoogleFonts.cairo(),
+          style: GoogleFonts.cairo( ),
           textAlign: TextAlign.center,
         ),
         actionsAlignment: MainAxisAlignment.center,
@@ -1251,7 +1254,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'متابعة',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
               ),
@@ -1264,7 +1267,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             },
             child: Text(
               'خروج',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontWeight: FontWeight.w800,
                 color: AppColors.error,
               ),
@@ -1275,3 +1278,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     );
   }
 }
+
+
+

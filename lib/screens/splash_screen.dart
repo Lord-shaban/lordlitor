@@ -1,6 +1,7 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import '../core/constants.dart';
 import 'home_screen.dart';
@@ -101,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen>
             // App name
             Text(
               AppConstants.appName,
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 42,
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
@@ -117,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen>
             // Tagline
             Text(
               AppConstants.appTagline,
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 15,
                 color: Colors.white.withValues(alpha: 0.85),
                 fontWeight: FontWeight.w500,
@@ -150,3 +151,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
+
+

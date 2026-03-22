@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../core/app_theme.dart';
@@ -42,7 +43,7 @@ class _StatsScreenState extends State<StatsScreen> {
               children: [
                 Text(
                   'الإحصائيات',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textPrimary,
@@ -84,7 +85,7 @@ class _StatsScreenState extends State<StatsScreen> {
               children: [
                 Text(
                   'الإنجازات',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
@@ -127,7 +128,7 @@ class _StatsScreenState extends State<StatsScreen> {
                       const SizedBox(width: 6),
                       Text(
                         'إعادة تعيين التقدم',
-                        style: GoogleFonts.cairo(
+                        style: GoogleFonts.cairo( 
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: AppColors.textLight,
@@ -183,7 +184,7 @@ class _StatsScreenState extends State<StatsScreen> {
               children: [
                 Text(
                   '${_progress.level}',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 26,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
@@ -204,7 +205,7 @@ class _StatsScreenState extends State<StatsScreen> {
                   children: [
                     Text(
                       'المستوى ${_progress.level}',
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.cairo( 
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
@@ -220,7 +221,7 @@ class _StatsScreenState extends State<StatsScreen> {
                       ),
                       child: Text(
                         _progress.levelTitle,
-                        style: GoogleFonts.cairo(
+                        style: GoogleFonts.cairo( 
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
@@ -232,7 +233,7 @@ class _StatsScreenState extends State<StatsScreen> {
                 const SizedBox(height: 4),
                 Text(
                   '${_progress.xp} / ${AppConstants.xpPerLevel} XP',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 13,
                     color: Colors.white.withValues(alpha: 0.8),
                     fontWeight: FontWeight.w600,
@@ -326,7 +327,7 @@ class _StatsScreenState extends State<StatsScreen> {
           const SizedBox(height: 4),
           Text(
             value,
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 22,
               fontWeight: FontWeight.w900,
               color: color,
@@ -334,7 +335,7 @@ class _StatsScreenState extends State<StatsScreen> {
           ),
           Text(
             label,
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 10,
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w600,
@@ -365,7 +366,7 @@ class _StatsScreenState extends State<StatsScreen> {
         children: [
           Text(
             'الأداء العام',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 16,
               fontWeight: FontWeight.w800,
               color: AppColors.textPrimary,
@@ -411,7 +412,7 @@ class _StatsScreenState extends State<StatsScreen> {
         const SizedBox(height: 2),
         Text(
           value,
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.cairo( 
             fontSize: 18,
             fontWeight: FontWeight.w900,
             color: AppColors.textPrimary,
@@ -419,7 +420,7 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
         Text(
           label,
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.cairo( 
             fontSize: 9,
             color: AppColors.textSecondary,
             fontWeight: FontWeight.w600,
@@ -502,7 +503,7 @@ class _StatsScreenState extends State<StatsScreen> {
               const SizedBox(height: 4),
               Text(
                 achievement.title,
-                style: GoogleFonts.cairo(
+                style: GoogleFonts.cairo( 
                   fontSize: 11,
                   fontWeight: FontWeight.w800,
                   color: achievement.unlocked
@@ -513,7 +514,7 @@ class _StatsScreenState extends State<StatsScreen> {
               ),
               Text(
                 achievement.description,
-                style: GoogleFonts.cairo(
+                style: GoogleFonts.cairo( 
                   fontSize: 9,
                   color: achievement.unlocked
                       ? AppColors.textSecondary
@@ -549,13 +550,13 @@ class _StatsScreenState extends State<StatsScreen> {
             const SizedBox(width: 8),
             Text(
               'إعادة تعيين',
-              style: GoogleFonts.cairo(fontWeight: FontWeight.w800),
+              style: GoogleFonts.cairo( fontWeight: FontWeight.w800),
             ),
           ],
         ),
         content: Text(
           'سيتم حذف جميع بيانات التقدم. هل أنت متأكد؟',
-          style: GoogleFonts.cairo(),
+          style: GoogleFonts.cairo( ),
           textAlign: TextAlign.center,
         ),
         actionsAlignment: MainAxisAlignment.center,
@@ -564,7 +565,7 @@ class _StatsScreenState extends State<StatsScreen> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'إلغاء',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontWeight: FontWeight.w700,
                 color: AppColors.textSecondary,
               ),
@@ -578,7 +579,7 @@ class _StatsScreenState extends State<StatsScreen> {
             },
             child: Text(
               'إعادة تعيين',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontWeight: FontWeight.w700,
                 color: AppColors.error,
               ),
@@ -599,3 +600,6 @@ class _Achievement {
 
   _Achievement(this.icon, this.title, this.description, this.unlocked, this.iconColor);
 }
+
+
+

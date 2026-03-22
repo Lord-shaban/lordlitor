@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import '../core/app_theme.dart';
 import '../core/constants.dart';
@@ -34,7 +35,7 @@ class _MultiplicationTableScreenState
               children: [
                 Text(
                   'جدول الضرب',
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.cairo( 
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textPrimary,
@@ -48,7 +49,7 @@ class _MultiplicationTableScreenState
             const SizedBox(height: 6),
             Text(
               'اختر رقم لدراسة جدول الضرب أو التدريب عليه',
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 13,
                 color: AppColors.textSecondary,
               ),
@@ -120,7 +121,7 @@ class _MultiplicationTableScreenState
             child: Center(
               child: Text(
                 '$number',
-                style: GoogleFonts.cairo(
+                style: GoogleFonts.cairo( 
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   color: isSelected ? Colors.white : tileColor,
@@ -180,7 +181,7 @@ class _MultiplicationTableScreenState
                 child: Center(
                   child: Text(
                     'تدريب',
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                       color: !_showTable
@@ -213,7 +214,7 @@ class _MultiplicationTableScreenState
                 child: Center(
                   child: Text(
                     'عرض الجدول',
-                    style: GoogleFonts.cairo(
+                    style: GoogleFonts.cairo( 
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                       color: _showTable
@@ -275,7 +276,7 @@ class _MultiplicationTableScreenState
                     child: Center(
                       child: Text(
                         '$multiplier',
-                        style: GoogleFonts.cairo(
+                        style: GoogleFonts.cairo( 
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
                           color: numColor,
@@ -287,7 +288,7 @@ class _MultiplicationTableScreenState
                   Expanded(
                     child: Text(
                       '$_selectedNumber  ×  $multiplier',
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.cairo( 
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -303,7 +304,7 @@ class _MultiplicationTableScreenState
                     ),
                     child: Text(
                       '=  $result',
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.cairo( 
                         fontSize: 17,
                         fontWeight: FontWeight.w900,
                         color: numColor,
@@ -352,7 +353,7 @@ class _MultiplicationTableScreenState
           const SizedBox(height: 10),
           Text(
             'تدريب على جدول $_selectedNumber',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 19,
               fontWeight: FontWeight.w800,
               color: Colors.white,
@@ -361,7 +362,7 @@ class _MultiplicationTableScreenState
           const SizedBox(height: 4),
           Text(
             '20 سؤال - الجدول كاملاً',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.95),
@@ -370,7 +371,7 @@ class _MultiplicationTableScreenState
           const SizedBox(height: 4),
           Text(
             'الأسئلة الخاطئة تُعاد حتى الإتقان الكامل',
-            style: GoogleFonts.cairo(
+            style: GoogleFonts.cairo( 
               fontSize: 12,
               color: Colors.white.withValues(alpha: 0.7),
             ),
@@ -479,7 +480,7 @@ class _DuoInvertButtonState extends State<_DuoInvertButton> {
             const SizedBox(width: 8),
             Text(
               widget.label,
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.cairo( 
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
@@ -491,3 +492,6 @@ class _DuoInvertButtonState extends State<_DuoInvertButton> {
     );
   }
 }
+
+
+
