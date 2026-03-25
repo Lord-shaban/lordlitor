@@ -53,8 +53,6 @@ class AppColors {
   static const Color subtractionShadow = Color(0xFFCC7700);
   static const Color divisionColor = Color(0xFFCE82FF);
   static const Color divisionShadow = Color(0xFF9B50D0);
-  static const Color sequenceColor = Color(0xFFFF4B4B);
-  static const Color sequenceShadow = Color(0xFFCC2E2E);
   static const Color mentalMathColor = Color(0xFFFFD900);
   static const Color mentalMathShadow = Color(0xFFCCAE00);
 
@@ -64,7 +62,6 @@ class AppColors {
     if (color == additionColor) return additionShadow;
     if (color == subtractionColor) return subtractionShadow;
     if (color == divisionColor) return divisionShadow;
-    if (color == sequenceColor) return sequenceShadow;
     if (color == mentalMathColor) return mentalMathShadow;
     if (color == primary) return primaryShadow;
     if (color == secondary) return secondaryShadow;

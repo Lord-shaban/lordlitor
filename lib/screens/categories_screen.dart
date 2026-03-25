@@ -92,15 +92,6 @@ class CategoriesScreen extends StatelessWidget {
         categoryIcon: Icons.pie_chart_rounded,
       ),
       _CategoryData(
-        title: 'السلاسل العددية',
-        subtitle: 'أكمل النمط في السلسلة',
-        icon: Icons.timeline_rounded,
-        color: AppColors.sequenceColor,
-        shadowColor: AppColors.sequenceShadow,
-        type: QuestionType.sequence,
-        categoryIcon: Icons.extension_rounded,
-      ),
-      _CategoryData(
         title: 'حساب ذهني',
         subtitle: 'نسب مئوية، عمليات مركبة، وأكثر',
         icon: Icons.psychology_rounded,

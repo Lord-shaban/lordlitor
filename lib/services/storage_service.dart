@@ -15,8 +15,6 @@ class StorageService {
         return AppConstants.keySubtractionProgress;
       case QuestionType.division:
         return AppConstants.keyDivisionProgress;
-      case QuestionType.sequence:
-        return AppConstants.keySequenceProgress;
       case QuestionType.mentalMath:
         return AppConstants.keyMentalMathProgress;
     }

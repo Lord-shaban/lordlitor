@@ -148,8 +148,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         return Icons.remove_rounded;
       case QuestionType.division:
         return Icons.percent_rounded;
-      case QuestionType.sequence:
-        return Icons.timeline_rounded;
       case QuestionType.mentalMath:
         return Icons.psychology_rounded;
     }
@@ -293,8 +291,10 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   Future<void> _finishQuiz() async {
     _timer?.cancel();
 
+    final actualTotal = _totalAnswered > 0 ? _totalAnswered : _questions.length;
+
     final result = QuizResult(
-      totalQuestions: _questions.length,
+      totalQuestions: actualTotal,
       correctAnswers: _correctCount,
       wrongAnswers: _wrongCount,
       xpEarned: _correctCount * AppConstants.xpPerCorrect,
@@ -312,11 +312,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       type: widget.type,
       difficulty: widget.difficulty,
       correctAnswers: _correctCount,
-      totalQuestions: _questions.length,
+      totalQuestions: actualTotal,
     );
     await StorageService.trackQuizCompletion(
       correctAnswers: _correctCount,
-      totalQuestions: _questions.length,
+      totalQuestions: actualTotal,
       bestCombo: _bestCombo,
     );
 

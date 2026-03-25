@@ -20,23 +20,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   UserProgress _progress = UserProgress();
-  late AnimationController _floatController;
+  late AnimationController _floatCtrl;
 
   @override
   void initState() {
     super.initState();
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2400),
-    )..repeat(reverse: true);
+    _floatCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400))..repeat(reverse: true);
     _loadProgress();
   }
 
   @override
-  void dispose() {
-    _floatController.dispose();
-    super.dispose();
-  }
+  void dispose() { _floatCtrl.dispose(); super.dispose(); }
 
   Future<void> _loadProgress() async {
     await StorageService.updateStreak();
@@ -46,20 +40,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final screens = [
-      _buildHomeTab(),
-      const CategoriesScreen(),
-      const MultiplicationTableScreen(),
-      const StatsScreen(),
-    ];
-
     return Scaffold(
-      body: screens[_currentIndex],
+      body: [_buildHomeTab(), const CategoriesScreen(), const MultiplicationTableScreen(), const StatsScreen()][_currentIndex],
       bottomNavigationBar: _buildBottomNav(),
     );
   }
 
-  // ==================== BOTTOM NAV ====================
+  // ═══════════════════ BOTTOM NAV ═══════════════════
   Widget _buildBottomNav() {
     return Container(
       decoration: BoxDecoration(
@@ -69,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -85,29 +72,29 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   Widget _navItem(int i, IconData icon, String label) {
-    final active = _currentIndex == i;
+    final on = _currentIndex == i;
     return GestureDetector(
       onTap: () { HapticFeedback.selectionClick(); setState(() => _currentIndex = i); },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
         decoration: BoxDecoration(
-          color: active ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+          color: on ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: active ? AppColors.primary : const Color(0xFFAFAFAF), size: active ? 27 : 23),
+            Icon(icon, color: on ? AppColors.primary : const Color(0xFFAFAFAF), size: on ? 26 : 22),
             const SizedBox(height: 2),
-            Text(label, style: GoogleFonts.cairo(fontSize: 10, fontWeight: active ? FontWeight.w800 : FontWeight.w500, color: active ? AppColors.primary : const Color(0xFFAFAFAF))),
+            Text(label, style: GoogleFonts.cairo(fontSize: 10, fontWeight: on ? FontWeight.w800 : FontWeight.w500, color: on ? AppColors.primary : const Color(0xFFAFAFAF))),
           ],
         ),
       ),
     );
   }
 
-  // ==================== HOME TAB ====================
+  // ═══════════════════ HOME TAB ═══════════════════
   Widget _buildHomeTab() {
     return SafeArea(
       child: RefreshIndicator(
@@ -115,37 +102,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         color: AppColors.primary,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(18, 14, 18, 24),
+          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
-              _buildHeader().animate().fadeIn(duration: 400.ms).slideY(begin: -0.15, end: 0),
-              const SizedBox(height: 18),
-
-              // Hero banner
-              _buildHeroBanner().animate().fadeIn(duration: 500.ms, delay: 100.ms).scale(begin: const Offset(0.97, 0.97), end: const Offset(1, 1)),
-              const SizedBox(height: 18),
-
-              // Stats row
-              _buildStatsRow().animate().fadeIn(duration: 400.ms, delay: 200.ms).slideY(begin: 0.15, end: 0),
-              const SizedBox(height: 22),
-
-              // Quick practice title
-              _sectionTitle('تدريب سريع', Icons.bolt_rounded, AppColors.accent)
-                  .animate().fadeIn(duration: 400.ms, delay: 300.ms),
-              const SizedBox(height: 12),
-
-              // Quick action grid
-              _buildQuickGrid().animate().fadeIn(duration: 400.ms, delay: 350.ms).slideY(begin: 0.1, end: 0),
-              const SizedBox(height: 22),
-
-              // XP Progress
-              _buildXpCard().animate().fadeIn(duration: 400.ms, delay: 450.ms).slideX(begin: -0.1, end: 0),
-              const SizedBox(height: 18),
-
-              // Accuracy card
-              _buildAccuracyCard().animate().fadeIn(duration: 400.ms, delay: 500.ms).slideX(begin: 0.1, end: 0),
+              _buildHeader().animate().fadeIn(duration: 400.ms).slideY(begin: -0.1, end: 0),
+              const SizedBox(height: 16),
+              _buildHeroBanner().animate().fadeIn(duration: 500.ms, delay: 80.ms).scale(begin: const Offset(0.97, 0.97), end: const Offset(1, 1)),
+              const SizedBox(height: 16),
+              _buildStatsRow().animate().fadeIn(duration: 400.ms, delay: 160.ms).slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 20),
+              _sectionTitle('تدريب سريع', Icons.bolt_rounded, AppColors.accent).animate().fadeIn(duration: 300.ms, delay: 240.ms),
+              const SizedBox(height: 10),
+              _buildCategoryCards().animate().fadeIn(duration: 400.ms, delay: 300.ms).slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 20),
+              _buildProgressSection().animate().fadeIn(duration: 400.ms, delay: 380.ms).slideY(begin: 0.1, end: 0),
             ],
           ),
         ),
@@ -153,11 +124,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  // ==================== HEADER ====================
+  // ═══════════════════ HEADER ═══════════════════
   Widget _buildHeader() {
-    final hour = DateTime.now().hour;
-    final greeting = hour < 12 ? 'صباح الخير' : (hour < 18 ? 'مساء الخير' : 'مساء الخير');
-    final icon = hour < 12 ? Icons.wb_sunny_rounded : (hour < 18 ? Icons.wb_cloudy_rounded : Icons.nightlight_round);
+    final h = DateTime.now().hour;
+    final greet = h < 12 ? 'صباح الخير ☀️' : (h < 18 ? 'مساء الخير 🌤️' : 'مساء الخير 🌙');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,37 +136,37 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Icon(icon, color: AppColors.accent, size: 16),
-                  const SizedBox(width: 4),
-                  Text(greeting, style: GoogleFonts.cairo(fontSize: 13, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
-                ],
-              ),
+              Text(greet, style: GoogleFonts.cairo(fontSize: 13, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
               const SizedBox(height: 2),
               Row(
                 children: [
-                  Text(AppConstants.appName, style: GoogleFonts.cairo(fontSize: 28, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+                  Text(AppConstants.appName, style: GoogleFonts.cairo(fontSize: 26, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
                   const SizedBox(width: 8),
-                  _levelBadge(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [Color(0xFF667EEA), Color(0xFF764BA2)]),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text('Lv.${_progress.level}', style: GoogleFonts.cairo(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white)),
+                  ),
                 ],
               ),
             ],
           ),
         ),
-        // Mascot avatar
         AnimatedBuilder(
-          animation: _floatController,
-          builder: (_, child) => Transform.translate(offset: Offset(0, _floatController.value * 5 - 2.5), child: child),
+          animation: _floatCtrl,
+          builder: (_, child) => Transform.translate(offset: Offset(0, _floatCtrl.value * 5 - 2.5), child: child),
           child: Container(
-            width: 52, height: 52,
+            width: 50, height: 50,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(15),
               border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(13),
               child: Image.asset('lib/image/logo_without_bg.png', fit: BoxFit.cover),
             ),
           ),
@@ -205,33 +175,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  Widget _levelBadge() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [Color(0xFF667EEA), Color(0xFF764BA2)]),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        'Lv.${_progress.level}',
-        style: GoogleFonts.cairo(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white),
-      ),
-    );
-  }
-
-  // ==================== HERO BANNER ====================
+  // ═══════════════════ HERO BANNER ═══════════════════
   Widget _buildHeroBanner() {
     return GestureDetector(
       onTap: () { HapticFeedback.lightImpact(); setState(() => _currentIndex = 1); },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.fromLTRB(18, 16, 12, 16),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF58CC02), Color(0xFF46A302)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: const LinearGradient(colors: [Color(0xFF58CC02), Color(0xFF46A302)], begin: Alignment.topLeft, end: Alignment.bottomRight),
           borderRadius: BorderRadius.circular(20),
           border: const Border(bottom: BorderSide(color: Color(0xFF3B8C01), width: 4)),
         ),
@@ -241,32 +193,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Level chip
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      '${_progress.levelTitle} • Lv.${_progress.level}',
-                      style: GoogleFonts.cairo(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w700),
-                    ),
+                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(8)),
+                    child: Text('${_progress.levelTitle} • Lv.${_progress.level}', style: GoogleFonts.cairo(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w700)),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    _getMotivation(),
-                    style: GoogleFonts.cairo(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w800, height: 1.4),
-                  ),
+                  Text(_motivation, style: GoogleFonts.cairo(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w800, height: 1.4)),
                   const SizedBox(height: 12),
-                  // Start button
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: const Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 3)),
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: const Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 3))),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -279,10 +216,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ],
               ),
             ),
-            const SizedBox(width: 8),
             AnimatedBuilder(
-              animation: _floatController,
-              builder: (_, child) => Transform.translate(offset: Offset(0, _floatController.value * 8 - 4), child: child),
+              animation: _floatCtrl,
+              builder: (_, child) => Transform.translate(offset: Offset(0, _floatCtrl.value * 8 - 4), child: child),
               child: Image.asset('lib/image/logo_happy.png', width: 85, height: 85),
             ),
           ],
@@ -291,24 +227,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  String _getMotivation() {
+  String get _motivation {
     if (_progress.streak > 7) return '🔥 ${_progress.streak} يوم متتالي! استمر!';
     if (_progress.streak > 3) return 'أداؤك رائع! واصل التقدم!';
     if (_progress.totalAnswered > 0) return 'أهلاً من جديد! هيا نتدرب!';
     return 'هيا نبدأ رحلة التعلم!';
   }
 
-  // ==================== STATS ROW ====================
+  // ═══════════════════ STATS ROW ═══════════════════
   Widget _buildStatsRow() {
     return Row(
       children: [
-        Expanded(child: _statChip(Icons.local_fire_department_rounded, '${_progress.streak}', 'يوم', AppColors.streak)),
+        Expanded(child: _statChip(Icons.local_fire_department_rounded, '${_progress.streak}', 'يوم متتالي', AppColors.streak)),
         const SizedBox(width: 8),
-        Expanded(child: _statChip(Icons.star_rounded, '${_progress.xp}', 'XP', AppColors.gold)),
+        Expanded(child: _statChip(Icons.star_rounded, '${_progress.xp}', 'نقاط XP', AppColors.gold)),
         const SizedBox(width: 8),
-        Expanded(child: _statChip(Icons.check_circle_rounded, '${_progress.totalLessons}', 'درس', AppColors.primary)),
-        const SizedBox(width: 8),
-        Expanded(child: _statChip(Icons.emoji_events_rounded, '${_progress.bestCombo}', 'كومبو', AppColors.secondary)),
+        Expanded(child: _statChip(Icons.check_circle_rounded, '${_progress.totalLessons}', 'درس مكتمل', AppColors.primary)),
       ],
     );
   }
@@ -324,15 +258,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       child: Column(
         children: [
           Icon(icon, color: color, size: 20),
-          const SizedBox(height: 2),
+          const SizedBox(height: 3),
           Text(value, style: GoogleFonts.cairo(fontSize: 18, fontWeight: FontWeight.w900, color: color), textDirection: TextDirection.ltr),
-          Text(label, style: GoogleFonts.cairo(fontSize: 9, color: AppColors.textSecondary, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+          Text(label, style: GoogleFonts.cairo(fontSize: 8, color: AppColors.textSecondary, fontWeight: FontWeight.w600), textAlign: TextAlign.center, maxLines: 1),
         ],
       ),
     );
   }
 
-  // ==================== SECTION TITLE ====================
   Widget _sectionTitle(String title, IconData icon, Color color) {
     return Row(
       children: [
@@ -343,70 +276,104 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  // ==================== QUICK GRID ====================
-  Widget _buildQuickGrid() {
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      childAspectRatio: 0.9,
+  // ═══════════════════ CATEGORY CARDS ═══════════════════
+  Widget _buildCategoryCards() {
+    return Column(
       children: [
-        _quickCard('الضرب', Icons.close_rounded, AppColors.multiplicationColor, () => _goCategory(QuestionType.multiplication)),
-        _quickCard('الجمع', Icons.add_rounded, AppColors.additionColor, () => _goCategory(QuestionType.addition)),
-        _quickCard('الطرح', Icons.remove_rounded, AppColors.subtractionColor, () => _goCategory(QuestionType.subtraction)),
-        _quickCard('القسمة', Icons.percent_rounded, AppColors.divisionColor, () => _goCategory(QuestionType.division)),
-        _quickCard('المتتاليات', Icons.trending_up_rounded, AppColors.sequenceColor, () => _goCategory(QuestionType.sequence)),
-        _quickCard('ذهني', Icons.psychology_rounded, AppColors.mentalMathColor, () => _goCategory(QuestionType.mentalMath)),
+        // Row 1: 3 cards
+        Row(
+          children: [
+            Expanded(child: _catCard('الضرب', '✖️', Icons.close_rounded, AppColors.multiplicationColor, QuestionType.multiplication)),
+            const SizedBox(width: 10),
+            Expanded(child: _catCard('الجمع', '➕', Icons.add_rounded, AppColors.additionColor, QuestionType.addition)),
+            const SizedBox(width: 10),
+            Expanded(child: _catCard('الطرح', '➖', Icons.remove_rounded, AppColors.subtractionColor, QuestionType.subtraction)),
+          ],
+        ),
+        const SizedBox(height: 10),
+        // Row 2: 2 wider cards
+        Row(
+          children: [
+            Expanded(child: _catCardWide('القسمة', Icons.percent_rounded, AppColors.divisionColor, QuestionType.division)),
+            const SizedBox(width: 10),
+            Expanded(child: _catCardWide('حساب ذهني', Icons.psychology_rounded, AppColors.mentalMathColor, QuestionType.mentalMath)),
+          ],
+        ),
       ],
     );
   }
 
-  Widget _quickCard(String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _catCard(String title, String emoji, IconData icon, Color color, QuestionType type) {
     return GestureDetector(
-      onTap: () { HapticFeedback.lightImpact(); onTap(); },
+      onTap: () { HapticFeedback.lightImpact(); setState(() => _currentIndex = 1); },
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 3))],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: color, size: 24),
+              width: 44, height: 44,
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: color, size: 22),
             ),
-            const SizedBox(height: 6),
-            Text(title, style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.w800, color: color), textAlign: TextAlign.center),
+            const SizedBox(height: 8),
+            Text(title, style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.textPrimary), textAlign: TextAlign.center),
           ],
         ),
       ),
     );
   }
 
-  // ==================== XP PROGRESS ====================
-  Widget _buildXpCard() {
+  Widget _catCardWide(String title, IconData icon, Color color, QuestionType type) {
+    return GestureDetector(
+      onTap: () { HapticFeedback.lightImpact(); setState(() => _currentIndex = 1); },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 3))],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 40, height: 40,
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
+              child: Icon(icon, color: color, size: 20),
+            ),
+            const SizedBox(width: 10),
+            Text(title, style: GoogleFonts.cairo(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ═══════════════════ PROGRESS SECTION ═══════════════════
+  Widget _buildProgressSection() {
     final xpInLevel = _progress.xp % AppConstants.xpPerLevel;
-    final progress = (xpInLevel / AppConstants.xpPerLevel).clamp(0.0, 1.0);
+    final xpProgress = (xpInLevel / AppConstants.xpPerLevel).clamp(0.0, 1.0);
+    final accuracy = _progress.overallAccuracy;
+    final accColor = accuracy >= 80 ? AppColors.primary : (accuracy >= 50 ? AppColors.accent : AppColors.error);
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // XP to next level
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -414,39 +381,29 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 children: [
                   const Icon(Icons.bolt_rounded, color: AppColors.secondary, size: 18),
                   const SizedBox(width: 4),
-                  Text('المستوى التالي', style: GoogleFonts.cairo(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+                  Text('المستوى ${_progress.level + 1}', style: GoogleFonts.cairo(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.secondary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text('$xpInLevel / ${AppConstants.xpPerLevel} XP', style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.secondary), textDirection: TextDirection.ltr),
-              ),
+              Text('$xpInLevel / ${AppConstants.xpPerLevel} XP', style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.secondary), textDirection: TextDirection.ltr),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Directionality(
             textDirection: TextDirection.ltr,
             child: Container(
-              height: 14,
-              decoration: BoxDecoration(
-                color: AppColors.secondary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(7),
-              ),
+              height: 12,
+              decoration: BoxDecoration(color: AppColors.secondary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
               child: Stack(
                 children: [
                   AnimatedFractionallySizedBox(
                     duration: const Duration(milliseconds: 700),
                     curve: Curves.easeOutCubic,
-                    widthFactor: progress,
+                    widthFactor: xpProgress,
                     alignment: Alignment.centerLeft,
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(colors: [Color(0xFF1CB0F6), Color(0xFF49C4FF)]),
-                        borderRadius: BorderRadius.circular(7),
+                        borderRadius: BorderRadius.circular(6),
                         border: const Border(bottom: BorderSide(color: Color(0xFF0095D9), width: 2)),
                       ),
                     ),
@@ -455,69 +412,91 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
 
-  // ==================== ACCURACY CARD ====================
-  Widget _buildAccuracyCard() {
-    final accuracy = _progress.overallAccuracy;
-    final color = accuracy >= 80 ? AppColors.primary : (accuracy >= 50 ? AppColors.accent : AppColors.error);
-    final emoji = accuracy >= 80 ? '🎯' : (accuracy >= 50 ? '💪' : '📈');
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
-      ),
-      child: Row(
-        children: [
-          // Accuracy circle
-          SizedBox(
-            width: 56,
-            height: 56,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox.expand(
-                  child: CircularProgressIndicator(
-                    value: (accuracy / 100).clamp(0.0, 1.0),
-                    strokeWidth: 5,
-                    backgroundColor: color.withValues(alpha: 0.15),
-                    valueColor: AlwaysStoppedAnimation(color),
-                    strokeCap: StrokeCap.round,
-                  ),
-                ),
-                Text(emoji, style: const TextStyle(fontSize: 20)),
-              ],
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            child: Container(height: 1, color: const Color(0xFFF0F0F0)),
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('نسبة الإصابة', style: GoogleFonts.cairo(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-                const SizedBox(height: 2),
-                Row(
+
+          // Accuracy + questions + best combo
+          Row(
+            children: [
+              // Accuracy
+              Expanded(
+                flex: 3,
+                child: Row(
                   children: [
-                    Text('${accuracy.toStringAsFixed(1)}%', style: GoogleFonts.cairo(fontSize: 22, fontWeight: FontWeight.w900, color: color), textDirection: TextDirection.ltr),
+                    SizedBox(
+                      width: 36, height: 36,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox.expand(
+                            child: CircularProgressIndicator(
+                              value: (accuracy / 100).clamp(0.0, 1.0),
+                              strokeWidth: 3.5,
+                              backgroundColor: accColor.withValues(alpha: 0.12),
+                              valueColor: AlwaysStoppedAnimation(accColor),
+                              strokeCap: StrokeCap.round,
+                            ),
+                          ),
+                          Text('🎯', style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                    ),
                     const SizedBox(width: 8),
-                    Text('${_progress.totalCorrect}/${_progress.totalAnswered} سؤال', style: GoogleFonts.cairo(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w600), textDirection: TextDirection.ltr),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${accuracy.toStringAsFixed(0)}%', style: GoogleFonts.cairo(fontSize: 14, fontWeight: FontWeight.w900, color: accColor), textDirection: TextDirection.ltr),
+                        Text('الدقة', style: GoogleFonts.cairo(fontSize: 8, color: AppColors.textSecondary, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              Container(width: 1, height: 32, color: const Color(0xFFF0F0F0)),
+              // Questions answered
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.quiz_rounded, color: AppColors.secondary, size: 18),
+                    const SizedBox(width: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${_progress.totalCorrect}/${_progress.totalAnswered}', style: GoogleFonts.cairo(fontSize: 14, fontWeight: FontWeight.w900, color: AppColors.secondary), textDirection: TextDirection.ltr),
+                        Text('صح/مجموع', style: GoogleFonts.cairo(fontSize: 8, color: AppColors.textSecondary, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(width: 1, height: 32, color: const Color(0xFFF0F0F0)),
+              // Best combo
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.local_fire_department_rounded, color: AppColors.streak, size: 18),
+                    const SizedBox(width: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${_progress.bestCombo}', style: GoogleFonts.cairo(fontSize: 14, fontWeight: FontWeight.w900, color: AppColors.streak), textDirection: TextDirection.ltr),
+                        Text('كومبو', style: GoogleFonts.cairo(fontSize: 8, color: AppColors.textSecondary, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
-  }
-
-  void _goCategory(QuestionType type) {
-    setState(() => _currentIndex = 1);
   }
 }

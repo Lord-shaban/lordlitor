@@ -14,7 +14,6 @@ class AppConstants {
   static const String keyAdditionProgress = 'addition_progress';
   static const String keySubtractionProgress = 'subtraction_progress';
   static const String keyDivisionProgress = 'division_progress';
-  static const String keySequenceProgress = 'sequence_progress';
   static const String keyMentalMathProgress = 'mental_math_progress';
   static const String keyTotalCorrect = 'total_correct';
   static const String keyTotalAnswered = 'total_answered';

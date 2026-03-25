@@ -21,7 +21,7 @@ class QuestionGenerator {
       case QuestionType.addition: return _createAdditionQuestion(difficulty);
       case QuestionType.subtraction: return _createSubtractionQuestion(difficulty);
       case QuestionType.division: return _createDivisionQuestion(difficulty);
-      case QuestionType.sequence: return _createSequenceQuestion(difficulty);
+
       case QuestionType.mentalMath: return _createMentalMathQuestion(difficulty);
     }
   }
@@ -295,31 +295,7 @@ class QuestionGenerator {
     }
   }
 
-  // ==================== SEQUENCES ====================
-  Question _createSequenceQuestion(Difficulty difficulty) {
-    final t = _pickWeightedIndex(difficulty == Difficulty.easy ? [55,5,25,15] : (difficulty == Difficulty.medium ? [25,25,20,30] : [10,35,15,40]));
-    switch (t) { case 0: return _arithmeticSeq(difficulty); case 1: return _multiplySeq(difficulty); case 2: return _squareSeq(difficulty); default: return _incAddSeq(difficulty); }
-  }
-  Question _arithmeticSeq(Difficulty d) {
-    int s, df; switch(d) { case Difficulty.easy: s=_random.nextInt(5)+1; df=_random.nextInt(3)+2; case Difficulty.medium: s=_random.nextInt(10)+1; df=_random.nextInt(6)+3; case Difficulty.hard: s=_random.nextInt(20)+5; df=_random.nextInt(10)+5; }
-    List<int> seq = [for(int i=0;i<5;i++) s+df*i]; int ans = s+df*5;
-    return Question(questionText: 'أكمل السلسلة:\n${seq.join(" ,  ")} ,  ؟', correctAnswer: '$ans', type: QuestionType.sequence, difficulty: d, weight: _wt(d), bonusXp: _bxp(d), hint: 'الفرق = +$df', explanation: 'الفرق الثابت = $df، التالي = ${seq.last} + $df = $ans');
-  }
-  Question _multiplySeq(Difficulty d) {
-    int s, m; switch(d) { case Difficulty.easy: s=_random.nextInt(2)+1; m=2; case Difficulty.medium: s=_random.nextInt(3)+1; m=3; case Difficulty.hard: s=_random.nextInt(3)+1; m=_random.nextInt(2)+2; }
-    List<int> seq = []; int v = s; for(int i=0;i<4;i++){seq.add(v);v*=m;} int ans = v;
-    return Question(questionText: 'أكمل السلسلة:\n${seq.join(" ,  ")} ,  ؟', correctAnswer: '$ans', type: QuestionType.sequence, difficulty: d, weight: _wt(d), bonusXp: _bxp(d), hint: 'كل عدد × $m', explanation: '${seq.last} × $m = $ans');
-  }
-  Question _squareSeq(Difficulty d) {
-    int sn; switch(d) { case Difficulty.easy: sn=1; case Difficulty.medium: sn=_random.nextInt(3)+2; case Difficulty.hard: sn=_random.nextInt(5)+4; }
-    List<int> seq = [for(int i=0;i<5;i++) (sn+i)*(sn+i)]; int ans = (sn+5)*(sn+5);
-    return Question(questionText: 'أكمل السلسلة:\n${seq.join(" ,  ")} ,  ؟', correctAnswer: '$ans', type: QuestionType.sequence, difficulty: d, weight: _wt(d), bonusXp: _bxp(d), hint: 'مربعات أعداد متتالية', explanation: '${sn+5}² = $ans');
-  }
-  Question _incAddSeq(Difficulty d) {
-    int s, ad; switch(d) { case Difficulty.easy: s=_random.nextInt(3)+1; ad=1; case Difficulty.medium: s=_random.nextInt(5)+2; ad=2; case Difficulty.hard: s=_random.nextInt(10)+5; ad=_random.nextInt(3)+2; }
-    List<int> seq = [s]; int a = ad; for(int i=1;i<5;i++){seq.add(seq.last+a);a+=ad;} int ans = seq.last+a;
-    return Question(questionText: 'أكمل السلسلة:\n${seq.join(" ,  ")} ,  ؟', correctAnswer: '$ans', type: QuestionType.sequence, difficulty: d, weight: _wt(d), bonusXp: _bxp(d), hint: 'الفرق يزداد بمقدار $ad', explanation: 'التالي = ${seq.last} + $a = $ans');
-  }
+
 
   int _wt(Difficulty d) => d == Difficulty.hard ? 4 : (d == Difficulty.medium ? 2 : 1);
   int _bxp(Difficulty d) => d == Difficulty.hard ? 10 : (d == Difficulty.medium ? 5 : 0);
@@ -636,7 +612,7 @@ class QuestionGenerator {
   // ==================== MIXED ====================
   List<Question> generateMixedQuestions({required Difficulty difficulty, int count = AppConstants.questionsPerLesson}) {
     List<Question> q = [];
-    List<Function> g = [()=>_createMultiplicationQuestion(difficulty),()=>_createAdditionQuestion(difficulty),()=>_createSubtractionQuestion(difficulty),()=>_createDivisionQuestion(difficulty),()=>_createSequenceQuestion(difficulty),()=>_createMentalMathQuestion(difficulty)];
+    List<Function> g = [()=>_createMultiplicationQuestion(difficulty),()=>_createAdditionQuestion(difficulty),()=>_createSubtractionQuestion(difficulty),()=>_createDivisionQuestion(difficulty),()=>_createMentalMathQuestion(difficulty)];
     for(int i=0;i<count;i++) q.add(g[_random.nextInt(g.length)]() as Question);
     return q;
   }

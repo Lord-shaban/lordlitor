@@ -3,7 +3,6 @@ enum QuestionType {
   addition,
   subtraction,
   division,
-  sequence,
   mentalMath,
 }
 
