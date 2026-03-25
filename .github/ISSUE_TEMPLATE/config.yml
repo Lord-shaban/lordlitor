@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 مناقشة عامة
+    url: https://github.com/Lord-shaban/lordlitor/discussions
+    about: اطرح أسئلتك أو شارك أفكارك في المناقشات
+  - name: 📖 التوثيق
+    url: https://github.com/Lord-shaban/lordlitor/blob/main/README.md
+    about: تأكد من مراجعة التوثيق قبل فتح Issue

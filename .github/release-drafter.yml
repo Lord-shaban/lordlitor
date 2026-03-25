@@ -1,0 +1,36 @@
+# Release Drafter Configuration
+# https://github.com/release-drafter/release-drafter
+
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '✨ ميزات جديدة'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 إصلاحات'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '🎨 تحسينات التصميم'
+    labels:
+      - 'design'
+      - 'ui'
+  - title: '📖 توثيق'
+    labels:
+      - 'documentation'
+  - title: '🏗️ تقنية'
+    labels:
+      - 'dependencies'
+      - 'refactor'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+template: |
+  ## التغييرات
+
+  $CHANGES
+
+  **النسخة الكاملة**: [`$PREVIOUS_TAG...v$RESOLVED_VERSION`](https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION)
