@@ -17,7 +17,7 @@ dependencies:
   confetti: ^0.8.0
   percent_indicator: ^4.2.3
   fl_chart: ^0.70.2
-  flutter_tts: ^4.2.5
+  audioplayers: ^6.6.0
 
 dev_dependencies:
   flutter_test:
