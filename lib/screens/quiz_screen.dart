@@ -131,16 +131,18 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   }
 
   String _questionToSpeech(String text) {
-    // Convert math symbols to Arabic words
     String s = text;
-    s = s.replaceAll('×', ' ضرب ');
-    s = s.replaceAll('÷', ' قسمة ');
-    s = s.replaceAll('+', ' زائد ');
+    // Egyptian dialect math operators
+    s = s.replaceAll('×', ' في ');
+    s = s.replaceAll('÷', ' على ');
+    s = s.replaceAll('+', ' و ');
     s = s.replaceAll('-', ' ناقص ');
+    s = s.replaceAll('= ؟', ' يساوي كام؟');
     s = s.replaceAll('=', ' يساوي ');
-    s = s.replaceAll('؟', ' كم؟');
-    s = s.replaceAll('%', ' بالمئة ');
+    s = s.replaceAll('؟', ' كام؟');
+    s = s.replaceAll('%', ' في المية ');
     s = s.replaceAll('\n', '، ');
+    s = s.replaceAll(':', '،');
     // Clean extra spaces
     s = s.replaceAll(RegExp(r'\s+'), ' ').trim();
     return s;
@@ -1035,33 +1037,46 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                       ],
                     ),
 
-                    // TTS Speaker button (Duolingo 3D style) — top-left
+                    // TTS Speaker button (Duolingo 3D) — bottom-right outside card
                     Positioned(
-                      top: -8,
-                      left: -8,
+                      bottom: -18,
+                      right: 12,
                       child: GestureDetector(
                         onTap: _speakQuestion,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
-                          width: 42,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            color: _isSpeaking ? const Color(0xFF1CB0F6) : const Color(0xFF1CB0F6),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border(
-                              bottom: BorderSide(
-                                color: _isSpeaking ? const Color(0xFF0095D9) : const Color(0xFF0095D9),
-                                width: _isSpeaking ? 2 : 4,
+                        child: AnimatedScale(
+                          scale: _isSpeaking ? 0.92 : 1.0,
+                          duration: const Duration(milliseconds: 120),
+                          child: Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1CB0F6),
+                              shape: BoxShape.circle,
+                              border: const Border(
+                                bottom: BorderSide(color: Color(0xFF0095D9), width: 4),
+                                top: BorderSide(color: Colors.transparent, width: 0),
+                                left: BorderSide(color: Colors.transparent, width: 0),
+                                right: BorderSide(color: Colors.transparent, width: 0),
                               ),
-                              top: BorderSide(color: Colors.transparent, width: _isSpeaking ? 2 : 0),
-                              left: const BorderSide(color: Colors.transparent, width: 0),
-                              right: const BorderSide(color: Colors.transparent, width: 0),
+                              boxShadow: [
+                                if (_isSpeaking)
+                                  BoxShadow(
+                                    color: const Color(0xFF1CB0F6).withValues(alpha: 0.4),
+                                    blurRadius: 12,
+                                    spreadRadius: 2,
+                                  ),
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
                             ),
-                          ),
-                          child: Icon(
-                            _isSpeaking ? Icons.volume_up_rounded : Icons.volume_up_rounded,
-                            color: Colors.white,
-                            size: _isSpeaking ? 20 : 22,
+                            child: Icon(
+                              _isSpeaking ? Icons.volume_up_rounded : Icons.volume_up_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
                           ),
                         ),
                       ),
