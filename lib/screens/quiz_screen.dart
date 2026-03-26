@@ -100,10 +100,31 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _initTts() async {
-    await _tts.setLanguage('ar');
-    await _tts.setSpeechRate(0.45);
-    await _tts.setPitch(1.0);
+    await _tts.setLanguage('ar-EG');
+    await _tts.setSpeechRate(0.38);
+    await _tts.setPitch(0.85);
     await _tts.setVolume(1.0);
+
+    // Try to select a male voice
+    try {
+      final voices = await _tts.getVoices;
+      if (voices != null) {
+        final voiceList = List<Map<dynamic, dynamic>>.from(voices);
+        // Prefer Egyptian Arabic male voice
+        final maleVoice = voiceList.firstWhere(
+          (v) => v['locale']?.toString().startsWith('ar') == true &&
+                 v['name']?.toString().toLowerCase().contains('male') == true,
+          orElse: () => voiceList.firstWhere(
+            (v) => v['locale']?.toString().startsWith('ar') == true,
+            orElse: () => <String, dynamic>{},
+          ),
+        );
+        if (maleVoice.isNotEmpty && maleVoice['name'] != null) {
+          await _tts.setVoice({'name': maleVoice['name'].toString(), 'locale': maleVoice['locale']?.toString() ?? 'ar-EG'});
+        }
+      }
+    } catch (_) {}
+
     _tts.setStartHandler(() { if (mounted) setState(() => _isSpeaking = true); });
     _tts.setCompletionHandler(() { if (mounted) setState(() => _isSpeaking = false); });
     _tts.setCancelHandler(() { if (mounted) setState(() => _isSpeaking = false); });
@@ -965,13 +986,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                child: Column(
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    // Category icon + Speaker button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    // Main content (centered)
+                    Column(
                       children: [
-                        const Spacer(),
+                        // Category icon (centered)
                         Container(
                           width: 50,
                           height: 50,
@@ -987,80 +1008,64 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        const Spacer(),
-                        // TTS Speaker button (Duolingo style)
-                        GestureDetector(
-                          onTap: _speakQuestion,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            width: 44,
-                            height: 44,
+                        const SizedBox(height: 16),
+
+                        // Question text
+                        _buildQuestionText(question.questionText),
+
+                        // Bonus XP indicator
+                        if (question.bonusXp > 0) ...[
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                             decoration: BoxDecoration(
-                              color: _isSpeaking
-                                  ? AppColors.secondary.withValues(alpha: 0.15)
-                                  : const Color(0xFFF0F0F0),
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: _isSpeaking
-                                    ? AppColors.secondary
-                                    : const Color(0xFFE5E5E5),
-                                width: 2,
-                              ),
-                              boxShadow: _isSpeaking
-                                  ? [BoxShadow(
-                                      color: AppColors.secondary.withValues(alpha: 0.2),
-                                      blurRadius: 8,
-                                      spreadRadius: 1,
-                                    )]
-                                  : null,
+                              color: AppColors.gold.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(
-                              _isSpeaking ? Icons.volume_up_rounded : Icons.volume_up_outlined,
-                              color: _isSpeaking ? AppColors.secondary : AppColors.textSecondary,
-                              size: 22,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.star_rounded, color: AppColors.goldDark, size: 14),
+                                const SizedBox(width: 4),
+                                Text('+${question.bonusXp} XP', style: GoogleFonts.cairo(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.goldDark)),
+                              ],
                             ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
-                    const SizedBox(height: 16),
 
-                    // Question text with proper directionality
-                    _buildQuestionText(question.questionText),
-
-                    // Bonus XP indicator
-                    if (question.bonusXp > 0) ...[
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.gold.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star_rounded,
-                              color: AppColors.goldDark,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '+${question.bonusXp} XP',
-                              style: GoogleFonts.cairo( 
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.goldDark,
+                    // TTS Speaker button (Duolingo 3D style) — top-left
+                    Positioned(
+                      top: -8,
+                      left: -8,
+                      child: GestureDetector(
+                        onTap: _speakQuestion,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            color: _isSpeaking ? const Color(0xFF1CB0F6) : const Color(0xFF1CB0F6),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: _isSpeaking ? const Color(0xFF0095D9) : const Color(0xFF0095D9),
+                                width: _isSpeaking ? 2 : 4,
                               ),
+                              top: BorderSide(color: Colors.transparent, width: _isSpeaking ? 2 : 0),
+                              left: const BorderSide(color: Colors.transparent, width: 0),
+                              right: const BorderSide(color: Colors.transparent, width: 0),
                             ),
-                          ],
+                          ),
+                          child: Icon(
+                            _isSpeaking ? Icons.volume_up_rounded : Icons.volume_up_rounded,
+                            color: Colors.white,
+                            size: _isSpeaking ? 20 : 22,
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ],
                 ),
               )
