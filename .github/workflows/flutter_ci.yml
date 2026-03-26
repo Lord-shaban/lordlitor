@@ -96,7 +96,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lordlitor-v${{ github.run_number }}-release
           path: build/app/outputs/flutter-apk/app-release.apk
