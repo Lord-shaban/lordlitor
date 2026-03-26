@@ -2,7 +2,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
@@ -11,6 +10,7 @@ import '../core/constants.dart';
 import '../models/question_model.dart';
 import '../services/question_generator.dart';
 import '../services/storage_service.dart';
+import '../services/tts_service.dart';
 import '../widgets/duo_button.dart';
 import 'result_screen.dart';
 
@@ -44,7 +44,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   final QuestionGenerator _generator = QuestionGenerator();
   final TextEditingController _answerController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  final FlutterTts _tts = FlutterTts();
+  final TtsService _ttsService = TtsService();
 
   List<Question> _questions = [];
   int _currentIndex = 0;
@@ -99,69 +99,17 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     _prepareQuiz();
   }
 
-  Future<void> _initTts() async {
-    await _tts.setLanguage('ar-EG');
-    await _tts.setSpeechRate(0.4);
-    await _tts.setPitch(0.9);
-    await _tts.setVolume(1.0);
-
-    // Try to pick best Arabic voice (prefer ar-EG)
-    try {
-      final voices = await _tts.getVoices;
-      if (voices != null) {
-        final voiceList = List<Map<dynamic, dynamic>>.from(voices);
-        // 1st priority: ar-EG voice
-        var picked = voiceList.where(
-          (v) => v['locale']?.toString() == 'ar-EG',
-        ).toList();
-        // 2nd priority: any ar voice
-        if (picked.isEmpty) {
-          picked = voiceList.where(
-            (v) => v['locale']?.toString().startsWith('ar') == true,
-          ).toList();
-        }
-        if (picked.isNotEmpty) {
-          final voice = picked.first;
-          await _tts.setVoice({
-            'name': voice['name'].toString(),
-            'locale': voice['locale']?.toString() ?? 'ar-EG',
-          });
-        }
-      }
-    } catch (_) {}
-
-    _tts.setStartHandler(() { if (mounted) setState(() => _isSpeaking = true); });
-    _tts.setCompletionHandler(() { if (mounted) setState(() => _isSpeaking = false); });
-    _tts.setCancelHandler(() { if (mounted) setState(() => _isSpeaking = false); });
-  }
-
-  String _questionToSpeech(String text) {
-    String s = text;
-    // Egyptian dialect math operators
-    s = s.replaceAll('×', ' في ');
-    s = s.replaceAll('÷', ' على ');
-    s = s.replaceAll('+', ' زائد ');
-    s = s.replaceAll('-', ' ناقص ');
-    s = s.replaceAll('= ؟', ' يساوي كام؟');
-    s = s.replaceAll('=', ' يساوي ');
-    s = s.replaceAll('؟', ' كام؟');
-    s = s.replaceAll('%', ' في المية ');
-    s = s.replaceAll('\n', '، ');
-    s = s.replaceAll(':', '،');
-    // Clean extra spaces
-    s = s.replaceAll(RegExp(r'\s+'), ' ').trim();
-    return s;
+  void _initTts() {
+    _ttsService.onSpeakingChanged = (speaking) {
+      if (mounted) setState(() => _isSpeaking = speaking);
+    };
+    _ttsService.init();
   }
 
   Future<void> _speakQuestion() async {
-    if (_isSpeaking) {
-      await _tts.stop();
-      return;
-    }
     if (_questions.isEmpty || _currentIndex >= _questions.length) return;
     HapticFeedback.lightImpact();
-    final text = _questionToSpeech(_questions[_currentIndex].questionText);
-    await _tts.speak(text);
+    await _ttsService.speak(_questions[_currentIndex].questionText);
   }
 
   void _startTimer() {
@@ -248,7 +196,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tts.stop();
+    _ttsService.dispose();
     _answerController.dispose();
     _focusNode.dispose();
     _confettiController.dispose();
