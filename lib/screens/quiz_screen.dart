@@ -2,6 +2,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:confetti/confetti.dart';
@@ -43,6 +44,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   final QuestionGenerator _generator = QuestionGenerator();
   final TextEditingController _answerController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final FlutterTts _tts = FlutterTts();
 
   List<Question> _questions = [];
   int _currentIndex = 0;
@@ -58,6 +60,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   bool _answered = false;
   bool _isCorrect = false;
   String _feedbackText = '';
+  bool _isSpeaking = false;
 
   // Table mode: retry logic
   final List<Question> _retryQueue = [];
@@ -92,7 +95,45 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+    _initTts();
     _prepareQuiz();
+  }
+
+  Future<void> _initTts() async {
+    await _tts.setLanguage('ar');
+    await _tts.setSpeechRate(0.45);
+    await _tts.setPitch(1.0);
+    await _tts.setVolume(1.0);
+    _tts.setStartHandler(() { if (mounted) setState(() => _isSpeaking = true); });
+    _tts.setCompletionHandler(() { if (mounted) setState(() => _isSpeaking = false); });
+    _tts.setCancelHandler(() { if (mounted) setState(() => _isSpeaking = false); });
+  }
+
+  String _questionToSpeech(String text) {
+    // Convert math symbols to Arabic words
+    String s = text;
+    s = s.replaceAll('×', ' ضرب ');
+    s = s.replaceAll('÷', ' قسمة ');
+    s = s.replaceAll('+', ' زائد ');
+    s = s.replaceAll('-', ' ناقص ');
+    s = s.replaceAll('=', ' يساوي ');
+    s = s.replaceAll('؟', ' كم؟');
+    s = s.replaceAll('%', ' بالمئة ');
+    s = s.replaceAll('\n', '، ');
+    // Clean extra spaces
+    s = s.replaceAll(RegExp(r'\s+'), ' ').trim();
+    return s;
+  }
+
+  Future<void> _speakQuestion() async {
+    if (_isSpeaking) {
+      await _tts.stop();
+      return;
+    }
+    if (_questions.isEmpty || _currentIndex >= _questions.length) return;
+    HapticFeedback.lightImpact();
+    final text = _questionToSpeech(_questions[_currentIndex].questionText);
+    await _tts.speak(text);
   }
 
   void _startTimer() {
@@ -179,6 +220,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _tts.stop();
     _answerController.dispose();
     _focusNode.dispose();
     _confettiController.dispose();
@@ -925,21 +967,61 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 ),
                 child: Column(
                   children: [
-                    // Category icon in circle
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: widget.categoryColor.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          _getCategoryIcon(widget.type),
-                          size: 26,
-                          color: widget.categoryColor,
+                    // Category icon + Speaker button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Spacer(),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: widget.categoryColor.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              _getCategoryIcon(widget.type),
+                              size: 26,
+                              color: widget.categoryColor,
+                            ),
+                          ),
                         ),
-                      ),
+                        const Spacer(),
+                        // TTS Speaker button (Duolingo style)
+                        GestureDetector(
+                          onTap: _speakQuestion,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: _isSpeaking
+                                  ? AppColors.secondary.withValues(alpha: 0.15)
+                                  : const Color(0xFFF0F0F0),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: _isSpeaking
+                                    ? AppColors.secondary
+                                    : const Color(0xFFE5E5E5),
+                                width: 2,
+                              ),
+                              boxShadow: _isSpeaking
+                                  ? [BoxShadow(
+                                      color: AppColors.secondary.withValues(alpha: 0.2),
+                                      blurRadius: 8,
+                                      spreadRadius: 1,
+                                    )]
+                                  : null,
+                            ),
+                            child: Icon(
+                              _isSpeaking ? Icons.volume_up_rounded : Icons.volume_up_outlined,
+                              color: _isSpeaking ? AppColors.secondary : AppColors.textSecondary,
+                              size: 22,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
 
