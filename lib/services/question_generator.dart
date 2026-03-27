@@ -307,17 +307,16 @@ class QuestionGenerator {
   // ==================== MENTAL MATH (Comprehensive) ====================
   Question _createMentalMathQuestion(Difficulty difficulty) {
     final t = _pickWeightedIndex(difficulty == Difficulty.easy
-      ? [25,15,15,10,10,10,5,10,0]
-      : (difficulty == Difficulty.medium ? [35,10,8,12,10,5,8,7,5] : [40,8,5,12,12,3,5,5,10]));
+      ? [30,15,15,15,10,5,10]
+      : (difficulty == Difficulty.medium ? [40,12,10,12,8,8,10] : [45,10,8,12,5,5,15]));
     switch(t) {
       case 0: return _multiOpQ(difficulty);
       case 1: return _fractionWordQ(difficulty);
       case 2: return _timeConvQ(difficulty);
       case 3: return _percentQ(difficulty);
-      case 4: return _missingNumQ(difficulty);
-      case 5: return _doubleHalfQ(difficulty);
-      case 6: return _geometryQ(difficulty);
-      case 7: return _directMulQ(difficulty);
+      case 4: return _doubleHalfQ(difficulty);
+      case 5: return _geometryQ(difficulty);
+      case 6: return _directMulQ(difficulty);
       default: return _calendarQ(difficulty);
     }
   }
@@ -573,16 +572,7 @@ class QuestionGenerator {
     return Question(questionText:'كم تساوي $p% من $n ؟',correctAnswer:'$ans',type:QuestionType.mentalMath,difficulty:d,weight:_wt(d),bonusXp:_bxp(d),hint:'النسبة = الرقم × النسبة ÷ 100',explanation:'$p% من $n = $ans');
   }
 
-  // --- Missing Number ---
-  Question _missingNumQ(Difficulty d) {
-    int a,b,result; String op; int mp=_random.nextInt(2);
-    switch(d) { case Difficulty.easy: a=_random.nextInt(20)+1;b=_random.nextInt(20)+1;op='+';result=a+b;
-      case Difficulty.medium: a=_random.nextInt(12)+2;b=_random.nextInt(12)+2;op='×';result=a*b;
-      case Difficulty.hard: a=_random.nextInt(50)+10;b=_random.nextInt(30)+10;op=_random.nextBool()?'+':'-';result=op=='+'?a+b:a-b;if(result<0){op='+';result=a+b;}
-    }
-    String qt; int ans; if(mp==0){qt='؟ $op $b = $result';ans=a;}else{qt='$a $op ؟ = $result';ans=b;}
-    return Question(questionText:qt,correctAnswer:'$ans',type:QuestionType.mentalMath,difficulty:d,weight:_wt(d),bonusXp:_bxp(d),hint:'أوجد العدد المجهول بعكس العملية',explanation:'$a $op $b = $result');
-  }
+
 
   // --- Double / Half ---
   Question _doubleHalfQ(Difficulty d) {
