@@ -27,20 +27,7 @@ class QuestionGenerator {
   }
 
   List<Difficulty> _buildDifficultyPlan({required Difficulty targetDifficulty, required double mastery, required int count}) {
-    List<int> bw;
-    switch (targetDifficulty) {
-      case Difficulty.easy: bw = [90, 10, 0];    // 90% easy, 10% medium, 0% hard
-      case Difficulty.medium: bw = [8, 85, 7];    // 85% medium
-      case Difficulty.hard: bw = [0, 10, 90];     // 90% hard
-    }
-    // Mild adaptive adjustment based on mastery (much gentler now)
-    if (mastery < 0.3) { bw[0] += 5; bw[2] = (bw[2] - 5).clamp(0, 100); }
-    else if (mastery > 0.8) { bw[0] = (bw[0] - 5).clamp(0, 100); bw[2] += 5; }
-    final plan = <Difficulty>[];
-    for (int i = 0; i < count; i++) {
-      plan.add(Difficulty.values[_pickWeightedIndex(bw)]);
-    }
-    return plan;
+    return List.filled(count, targetDifficulty);
   }
 
   List<Question> generateAdaptiveQuestionsByType({required QuestionType type, required Difficulty targetDifficulty, required double mastery, int count = AppConstants.questionsPerLesson}) {
