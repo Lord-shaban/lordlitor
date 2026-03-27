@@ -1,19 +1,30 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-/// High-quality TTS using Google Translate neural voices
-/// Reads questions in Egyptian Arabic dialect
+/// Offline TTS service — Modern Standard Arabic (فصحى)
+/// Converts math questions to clearly spoken Arabic text
 class TtsService {
-  final AudioPlayer _player = AudioPlayer();
+  final FlutterTts _tts = FlutterTts();
   bool isSpeaking = false;
   void Function(bool)? onSpeakingChanged;
 
   Future<void> init() async {
-    _player.onPlayerStateChanged.listen((state) {
-      final speaking = state == PlayerState.playing;
-      if (isSpeaking != speaking) {
-        isSpeaking = speaking;
-        onSpeakingChanged?.call(speaking);
-      }
+    // Standard Arabic for clear فصحى pronunciation
+    await _tts.setLanguage('ar');
+    await _tts.setSpeechRate(0.35);
+    await _tts.setPitch(1.0);
+    await _tts.setVolume(1.0);
+
+    _tts.setStartHandler(() {
+      isSpeaking = true;
+      onSpeakingChanged?.call(true);
+    });
+    _tts.setCompletionHandler(() {
+      isSpeaking = false;
+      onSpeakingChanged?.call(false);
+    });
+    _tts.setCancelHandler(() {
+      isSpeaking = false;
+      onSpeakingChanged?.call(false);
     });
   }
 
@@ -22,56 +33,30 @@ class TtsService {
       await stop();
       return;
     }
-
     final speech = questionToSpeech(questionText);
-    final url = _buildTtsUrl(speech);
-
-    try {
-      isSpeaking = true;
-      onSpeakingChanged?.call(true);
-      await _player.play(UrlSource(url));
-    } catch (_) {
-      isSpeaking = false;
-      onSpeakingChanged?.call(false);
-    }
+    await _tts.speak(speech);
   }
 
   Future<void> stop() async {
-    await _player.stop();
+    await _tts.stop();
     isSpeaking = false;
     onSpeakingChanged?.call(false);
   }
 
   void dispose() {
-    _player.dispose();
-  }
-
-  String _buildTtsUrl(String text) {
-    final encoded = Uri.encodeComponent(text);
-    return 'https://translate.google.com/translate_tts'
-        '?ie=UTF-8'
-        '&tl=ar'
-        '&client=tw-ob'
-        '&q=$encoded';
+    _tts.stop();
   }
 
   // ═══════════════════════════════════════════════════════
-  //  QUESTION → EGYPTIAN ARABIC SPEECH
+  //  QUESTION → FUSHA ARABIC SPEECH
   // ═══════════════════════════════════════════════════════
 
   String questionToSpeech(String text) {
-    // Arabic word problems — keep text, just convert numbers + symbols
-    if (_isArabicText(text)) {
-      return _processArabicQuestion(text);
-    }
-
-    // "label:\nmath" format
+    if (_isArabicText(text)) return _processArabicQuestion(text);
     if (text.contains(':\n')) {
-      final parts = text.split(':\n');
-      return '${parts[0]}، ${_mathToSpeech(parts[1].trim())}';
+      final p = text.split(':\n');
+      return '${p[0]}، ${_mathToSpeech(p[1].trim())}';
     }
-
-    // Pure math: "5 × 3 = ؟"
     return _mathToSpeech(text);
   }
 
@@ -84,71 +69,89 @@ class TtsService {
 
   String _processArabicQuestion(String text) {
     String s = text;
-    s = s.replaceAllMapped(RegExp(r'\d+'), (m) => _n(int.parse(m.group(0)!)));
-    s = s.replaceAll('×', ' في ');
+    s = s.replaceAllMapped(RegExp(r'\d+'), (m) => _num(int.parse(m.group(0)!)));
+    s = s.replaceAll('×', ' ضَرب ');
     s = s.replaceAll('÷', ' على ');
-    s = s.replaceAll('+', ' زائد ');
-    s = s.replaceAll('-', ' ناقص ');
-    s = s.replaceAll('= ؟', ' بيساوي كام');
-    s = s.replaceAll('=', ' يساوي ');
-    s = s.replaceAll('؟', ' كام');
-    s = s.replaceAll('%', ' في المية');
+    s = s.replaceAll('+', ' زائِد ');
+    s = s.replaceAll('-', ' ناقِص ');
+    s = s.replaceAll('= ؟', ' يُساوي كَم؟');
+    s = s.replaceAll('=', ' يُساوي ');
+    s = s.replaceAll('؟', ' كَم؟');
+    s = s.replaceAll('%', ' بِالمِئَة');
     s = s.replaceAll('\n', '، ');
     return s.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   String _mathToSpeech(String math) {
     final tokens = math.trim().split(RegExp(r'\s+'));
-    final result = <String>[];
-
+    final r = <String>[];
     for (final t in tokens) {
       switch (t) {
-        case '×': result.add('في'); break;
-        case '÷': result.add('على'); break;
-        case '+': result.add('زائد'); break;
-        case '-': result.add('ناقص'); break;
-        case '=': result.add('بيساوي'); break;
-        case '؟': case '?': result.add('كام'); break;
+        case '×': r.add('ضَرب'); break;
+        case '÷': r.add('على'); break;
+        case '+': r.add('زائِد'); break;
+        case '-': r.add('ناقِص'); break;
+        case '=': r.add('يُساوي'); break;
+        case '؟': case '?': r.add('كَم'); break;
         default:
           if (RegExp(r'^\d+$').hasMatch(t)) {
-            result.add(_n(int.parse(t)));
+            r.add(_num(int.parse(t)));
           } else {
-            result.add(t);
+            r.add(t);
           }
       }
     }
-    return result.join(' ');
+    return r.join(' ');
   }
 
   // ═══════════════════════════════════════════════════════
-  //  NUMBER → EGYPTIAN ARABIC
+  //  NUMBER → FUSHA ARABIC WORDS (with tashkeel)
   // ═══════════════════════════════════════════════════════
 
-  static const _ones = ['', 'واحد', 'اتنين', 'تلاتة', 'اربعة', 'خمسة', 'ستة', 'سبعة', 'تمانية', 'تسعة'];
-  static const _teens = ['عشرة', 'حداشر', 'اتناشر', 'تلتاشر', 'اربعتاشر', 'خمستاشر', 'ستاشر', 'سبعتاشر', 'تمنتاشر', 'تسعتاشر'];
-  static const _tens = ['', '', 'عشرين', 'تلاتين', 'اربعين', 'خمسين', 'ستين', 'سبعين', 'تمانين', 'تسعين'];
+  static const _ones = [
+    '', 'واحِد', 'اِثنان', 'ثَلاثَة', 'أَربَعَة', 'خَمسَة',
+    'سِتَّة', 'سَبعَة', 'ثَمانِيَة', 'تِسعَة',
+  ];
 
-  String _n(int n) {
-    if (n < 0) return 'سالب ${_n(-n)}';
-    if (n == 0) return 'صفر';
+  static const _teens = [
+    'عَشَرَة', 'أَحَدَ عَشَر', 'اِثنا عَشَر', 'ثَلاثَةَ عَشَر',
+    'أَربَعَةَ عَشَر', 'خَمسَةَ عَشَر', 'سِتَّةَ عَشَر',
+    'سَبعَةَ عَشَر', 'ثَمانِيَةَ عَشَر', 'تِسعَةَ عَشَر',
+  ];
+
+  static const _tens = [
+    '', '', 'عِشرون', 'ثَلاثون', 'أَربَعون', 'خَمسون',
+    'سِتّون', 'سَبعون', 'ثَمانون', 'تِسعون',
+  ];
+
+  String _num(int n) {
+    if (n < 0) return 'سالِب ${_num(-n)}';
+    if (n == 0) return 'صِفر';
     if (n <= 9) return _ones[n];
     if (n <= 19) return _teens[n - 10];
 
     if (n <= 99) {
       final t = n ~/ 10, o = n % 10;
-      return o == 0 ? _tens[t] : '${_ones[o]} و${_tens[t]}';
+      return o == 0 ? _tens[t] : '${_ones[o]} وَ${_tens[t]}';
     }
 
     if (n <= 999) {
       final h = n ~/ 100, r = n % 100;
-      final hs = h == 1 ? 'مية' : h == 2 ? 'ميتين' : '${_ones[h]}مية';
-      return r == 0 ? hs : '$hs و${_n(r)}';
+      String hs;
+      if (h == 1) hs = 'مِئَة';
+      else if (h == 2) hs = 'مِئَتان';
+      else hs = '${_ones[h]}مِئَة';
+      return r == 0 ? hs : '$hs وَ${_num(r)}';
     }
 
     if (n <= 9999) {
       final k = n ~/ 1000, r = n % 1000;
-      final ks = k == 1 ? 'ألف' : k == 2 ? 'ألفين' : k <= 10 ? '${_ones[k]} تلاف' : '${_n(k)} ألف';
-      return r == 0 ? ks : '$ks و${_n(r)}';
+      String ks;
+      if (k == 1) ks = 'أَلف';
+      else if (k == 2) ks = 'أَلفان';
+      else if (k <= 10) ks = '${_ones[k]} آلاف';
+      else ks = '${_num(k)} أَلف';
+      return r == 0 ? ks : '$ks وَ${_num(r)}';
     }
 
     return n.toString();
