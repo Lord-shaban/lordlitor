@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  google_fonts: ^8.0.2
+  google_fonts: ^9.0.0
   shared_preferences: ^2.3.4
   flutter_animate: ^4.5.2
   confetti: ^0.8.0
